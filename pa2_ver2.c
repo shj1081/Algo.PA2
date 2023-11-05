@@ -39,8 +39,94 @@ void read_input_file(char **seqs, int *seqs_num) {
   }
 }
 
+typedef struct node {
+  int name[MAX_SEQUENCES];
+  int lcs_len;
+  struct node *next[4];
+  struct node *chosen;
+} node;
+
+typedef struct memo_node {
+  int name[MAX_SEQUENCES];
+  struct memo_node *next;
+} memo_node;
+
+// functino for check arr cntains -1 
+int check_arr(int *arr, int size) {
+  for (int i = 0; i < size; i++) {
+    if (arr[i] != -1) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+// function for recursively building the tree of nodes
+void build_tree(node *current, int seqs_num,
+                int seqs_char_index_arr[seqs_num][4][MAX_LENGTH]) {
+
+  int arr_A[MAX_SEQUENCES];
+  int arr_T[MAX_SEQUENCES];
+  int arr_G[MAX_SEQUENCES];
+  int arr_C[MAX_SEQUENCES];
+
+  for (int i = 0; i < seqs_num; i++) {
+    arr_A[i] = seqs_char_index_arr[i][0][current->name[i]];
+    arr_T[i] = seqs_char_index_arr[i][1][current->name[i]];
+    arr_G[i] = seqs_char_index_arr[i][2][current->name[i]];
+    arr_C[i] = seqs_char_index_arr[i][3][current->name[i]];
+  }
+
+ if
+
+  
+
+}
 // Find the longest common subsequence of the given sequences
 char *find_lcs(char **seqs, int seqs_num) {
+  int seqs_char_index_arr[seqs_num][4][MAX_LENGTH];
+  memset(seqs_char_index_arr, -1, sizeof(seqs_char_index_arr));
+
+  int start_idx_A, start_idx_T, start_idx_G, start_idx_C;
+
+  for (int i = 0; i < seqs_num; i++) {
+    start_idx_A = 0, start_idx_T = 0, start_idx_G = 0, start_idx_C = 0;
+    for (int k = 0; k < strlen(seqs[i]); k++) {
+      if (seqs[i][k] == 'A') {
+        for (int idx = start_idx_A; idx <= k; idx++) {
+          seqs_char_index_arr[i][0][idx] = k + 1;
+        }
+        start_idx_A = k + 1;
+      } else if (seqs[i][k] == 'T') {
+        for (int idx = start_idx_T; idx <= k; idx++) {
+          seqs_char_index_arr[i][1][idx] = k + 1;
+        }
+        start_idx_T = k + 1;
+      } else if (seqs[i][k] == 'G') {
+        for (int idx = start_idx_G; idx <= k; idx++) {
+          seqs_char_index_arr[i][2][idx] = k + 1;
+        }
+        start_idx_G = k + 1;
+      } else if (seqs[i][k] == 'C') {
+        for (int idx = start_idx_C; idx <= k; idx++) {
+          seqs_char_index_arr[i][3][idx] = k + 1;
+        }
+        start_idx_C = k + 1;
+      }
+    }
+  }
+
+  // initialize the root node
+  node *root = malloc(sizeof(node));
+  for (int i = 0; i < seqs_num; i++) {
+    root->name[i] = 0;
+  }
+
+  // current node for loop
+  node *current = root;
+
+  // recursively build the tree of nodes
+
   char *lcs;
   return lcs;
 }
@@ -138,7 +224,6 @@ void MSA_write_output_file(char **seqs, int seqs_num, char *lcs) {
     }
     fputc(match ? '*' : ' ', file);
   }
-
   fclose(file);
 }
 
@@ -146,6 +231,7 @@ int main() {
   char *seqs[MAX_SEQUENCES];
   int seqs_num;
   read_input_file(seqs, &seqs_num);
+  char *test = find_lcs(seqs, seqs_num);
   char *lcs = "ATCCAT";
 
   printf("seqs_num: %d\n", seqs_num);
