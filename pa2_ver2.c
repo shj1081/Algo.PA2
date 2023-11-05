@@ -48,43 +48,128 @@ typedef struct node {
 
 typedef struct memo_node {
   int name[MAX_SEQUENCES];
+  node *node_adrs;
   struct memo_node *next;
 } memo_node;
 
-// functino for check arr cntains -1 
+// function for check arr doesn't cntains -1
 int check_arr(int *arr, int size) {
   for (int i = 0; i < size; i++) {
-    if (arr[i] != -1) {
-      return 1;
+    if (arr[i] == -1) {
+      return 0;
     }
   }
-  return 0;
+  return 1;
 }
 
-// function for recursively building the tree of nodes
-void build_tree(node *current, int seqs_num,
-                int seqs_char_index_arr[seqs_num][4][MAX_LENGTH]) {
-
-  int arr_A[MAX_SEQUENCES];
-  int arr_T[MAX_SEQUENCES];
-  int arr_G[MAX_SEQUENCES];
-  int arr_C[MAX_SEQUENCES];
-
-  for (int i = 0; i < seqs_num; i++) {
-    arr_A[i] = seqs_char_index_arr[i][0][current->name[i]];
-    arr_T[i] = seqs_char_index_arr[i][1][current->name[i]];
-    arr_G[i] = seqs_char_index_arr[i][2][current->name[i]];
-    arr_C[i] = seqs_char_index_arr[i][3][current->name[i]];
+// function for recursively building the tree of nodes using dynamic programming
+void build_tree(node *current, node *terminal, memo_node *root_memo,
+                memo_node *current_memo, int seqs_num,
+                int seqs_char_index_arr[seqs_num][4][MAX_LENGTH + 1]) {
+  // check if the current node is in the memoization table.
+  // if not , then add the current node to the memoization table
+  current_memo = root_memo;
+  int memo_match = 0;
+  while (current_memo->next != NULL) {
+    for (int i = 0; i < seqs_num; i++) {
+      if (current_memo->next->name[i] != current->name[i]) {
+        break;
+      }
+      if (i == seqs_num - 1) {
+        memo_match = 1;
+        break;
+      }
+    }
+    current_memo = current_memo->next;
   }
 
- if
+  if (memo_match == 0) {
+    // printf("add to memo\n");
+    current_memo->next = malloc(sizeof(memo_node));
+    for (int i = 0; i < seqs_num; i++) {
+      current_memo->next->name[i] = current->name[i];
+    }
+    current_memo->next->node_adrs = current;
+    current_memo->next->next = NULL;
+  }
 
-  
+  int next_name[4][MAX_SEQUENCES];
+  for (int i = 0; i < seqs_num; i++) {
+    next_name[0][i] = seqs_char_index_arr[i][0][current->name[i]];
+    next_name[1][i] = seqs_char_index_arr[i][1][current->name[i]];
+    next_name[2][i] = seqs_char_index_arr[i][2][current->name[i]];
+    next_name[3][i] = seqs_char_index_arr[i][3][current->name[i]];
+  }
 
+  for (int i = 0; i < 4; i++) {
+    if (check_arr(next_name[i], seqs_num)) {
+      // check if the next node is in the memoization table
+      // if it is, then set the next node to the node in the memoization table
+      current_memo = root_memo;
+      memo_match = 0;
+      while (current_memo->next != NULL) {
+        for (int j = 0; j < seqs_num; j++) {
+          if (current_memo->next->name[j] != next_name[i][j]) {
+            break;
+          }
+          if (j == seqs_num - 1) {
+            memo_match = 1;
+            break;
+          }
+        }
+        if (memo_match == 1) {
+          current->next[i] = current_memo->next->node_adrs;
+          break;
+        }
+        current_memo = current_memo->next;
+      }
+
+      // if not in the memoization table, then recursively build the tree
+      if (memo_match == 0) {
+        current->next[i] = malloc(sizeof(node));
+        for (int j = 0; j < seqs_num; j++) {
+          current->next[i]->name[j] = next_name[i][j];
+        }
+        current->next[i]->lcs_len = -1;
+        build_tree(current->next[i], terminal, root_memo, current_memo,
+                   seqs_num, seqs_char_index_arr);
+      }
+
+      // if the next node is the terminal node, link the current node to the
+      // terminal node
+    } else {
+      current->next[i] = terminal;
+    }
+  }
 }
+
+// function for recursively calculating the lcs length
+void calculate_lcs(node *current, node *terminal) {
+  if (current == terminal) {
+    return;
+  }
+
+  for (int i = 0; i < 4; i++) {
+    if (current->next[i]->lcs_len == -1) {
+      calculate_lcs(current->next[i], terminal);
+    }
+  }
+
+  int max_lcs_len = 0;
+  for (int i = 0; i < 4; i++) {
+    if (current->next[i] != terminal) {
+      if (current->next[i]->lcs_len > max_lcs_len) {
+        max_lcs_len = current->next[i]->lcs_len;
+        current->chosen = current->next[i];
+      }
+    }
+  }
+  current->lcs_len = max_lcs_len + 1;
+}
+
 // Find the longest common subsequence of the given sequences
 char *find_lcs(char **seqs, int seqs_num) {
-  int seqs_char_index_arr[seqs_num][4][MAX_LENGTH];
+  int seqs_char_index_arr[seqs_num][4][MAX_LENGTH + 1];
   memset(seqs_char_index_arr, -1, sizeof(seqs_char_index_arr));
 
   int start_idx_A, start_idx_T, start_idx_G, start_idx_C;
@@ -122,12 +207,46 @@ char *find_lcs(char **seqs, int seqs_num) {
     root->name[i] = 0;
   }
 
-  // current node for loop
-  node *current = root;
+  // initialize the termianl node
+  node *terminal = malloc(sizeof(node));
+  for (int i = 0; i < seqs_num; i++) {
+    terminal->name[i] = -1;
+  }
+  terminal->lcs_len = 1;
+
+  // initialize the memoization table
+  memo_node *root_memo = malloc(sizeof(memo_node));
+  for (int i = 0; i < seqs_num; i++) {
+    root_memo->name[i] = 0;
+  }
+  root_memo->node_adrs = root;
+
+  memo_node *current_memo = root_memo;
 
   // recursively build the tree of nodes
+  printf("build\n");
+  build_tree(root, terminal, root_memo, current_memo, seqs_num,
+             seqs_char_index_arr);
 
-  char *lcs;
+  printf("calculate\n");
+  calculate_lcs(root, terminal);
+  printf("lcs_len: %d\n", root->lcs_len);
+  char *lcs = malloc(sizeof(char) * root->lcs_len);
+
+  // appennd the seqs[0][current->chosen->name[0]-1] to lcs
+  int lcs_idx = 0;
+  node *current = root;
+  while (current != terminal) {
+    if (current->chosen != NULL) {
+      lcs[lcs_idx] = seqs[0][current->chosen->name[0] - 1];
+      lcs_idx++;
+      current = current->chosen;
+    } else {
+      current = current->next[0]; // go to terminal node
+    }
+  }
+  printf("lcs_len: %d\n", root->lcs_len);
+  printf("lcs: %s\n", lcs);
   return lcs;
 }
 
@@ -155,7 +274,6 @@ void MSA_write_output_file(char **seqs, int seqs_num, char *lcs) {
       } else {
         match[i] = 0;
       }
-      printf("%c %c %d\n", seqs[i][seqs_idx[i]], lcs[lcs_idx], match[i]);
     }
 
     // If all match or all mismatch
@@ -231,8 +349,8 @@ int main() {
   char *seqs[MAX_SEQUENCES];
   int seqs_num;
   read_input_file(seqs, &seqs_num);
-  char *test = find_lcs(seqs, seqs_num);
-  char *lcs = "ATCCAT";
+  char *lcs = find_lcs(seqs, seqs_num);
+  // char *lcs = "AACC";
 
   printf("seqs_num: %d\n", seqs_num);
   for (int i = 0; i < seqs_num; i++) {

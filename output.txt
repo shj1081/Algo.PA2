@@ -1,4 +1,6 @@
-ATTGCCA-TT
-ATGGCCA-TT
-AT--CCAAT-
-**  *** * 
+----------ATGGAA----T--CC-----A--TT----------------------T---------AGG---A--ATTTTTTTTTTTAGGTT----A--------------------------------------GGAATTTTTTTTAGG--TTAGGAATTTTGTT--AGGAATTTTTTTTAGGTTAGGAATTTT-----------------
+----------ATGGAA----T--CC-----A--TT----------------------T---------A-----A--A-----------A--------AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGG--TT------AG---TT-----TTTT-TT--AGG--TT------AGG--A--A-TTTT-----------------
+----------ATGGAA----T--CC-----A--TTGGGGGGGGGGGGGGGGGGGGGGTT--------AGGTT-AGGA-----------ATTTTTTTTA--------------------------------------GG--TT------AGGAATT-----TTTT-TT--AGG--TT------AGG--A--A-TTTT-----------------
+TTTTTTTTTTA---AAAAaATATCCCCTTTAGGTTAGGAA-----------------TTTTTTTTTTAGGTT-AGGA-----------ATTTTTTTTA--------------------------------------GG--TT------AGGAATT-----TTTT-TT--AGG--TT------AGG--A--A-TTTT-----------------
+----------ATGGAA----T--CC-----A--TT----------------------TT--------AGGTCCAT-ATTTT-------AGGTT----A--------------------------------------GGAATTTTTTTTAGG--TTAGGAATTTT-TTTTAGG--TT------AGG--A--A-TTTTTTTTAGGTTAGGAATTT
+          *   **    *  **     *  **                      *         *     *  *           *        *                                      **  **      **   **     **** **  ***  **      ***  *  * ****                 

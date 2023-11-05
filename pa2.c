@@ -334,7 +334,7 @@ char *lcs_5(char *sequence1, char *sequence2, char *sequence3, char *sequence4,
 }
 
 int main() {
-  char *sequences[] = {"ATTGCCATT", "ATGGCCATT", "AXXXXG"};
+  char *sequences[] = {"ATGGAATCCATTTTAGGATTTCCAT", "AAAGGCCATTGGATCCAT", "ATTTAGCCGCCAAATGTTCAG"};
   char *lcs = lcs_3(sequences[0], sequences[1], sequences[2]);
   printf("LCS : %s\n", lcs);
   return 0;
