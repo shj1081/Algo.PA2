@@ -254,8 +254,7 @@ char *lcs_5(char *sequence1, char *sequence2, char *sequence3, char *sequence4,
       for (int idx3 = 0; idx3 <= len3; idx3++) {
         for (int idx4 = 0; idx4 <= len4; idx4++) {
           for (int idx5 = 0; idx5 <= len5; idx5++) {
-            if (idx1 == 0 || idx2 == 0 || idx3 == 0 || idx4 == 0 ||
-                idx5 == 0) {
+            if (idx1 == 0 || idx2 == 0 || idx3 == 0 || idx4 == 0 || idx5 == 0) {
               matrix[idx1][idx2][idx3][idx4][idx5] = 0;
             } else if (sequence1[idx1 - 1] == sequence2[idx2 - 1] &&
                        sequence1[idx1 - 1] == sequence3[idx3 - 1] &&
@@ -266,8 +265,8 @@ char *lcs_5(char *sequence1, char *sequence2, char *sequence3, char *sequence4,
             } else {
               matrix[idx1][idx2][idx3][idx4][idx5] =
                   max(max(max(max(matrix[idx1 - 1][idx2][idx3][idx4][idx5],
-                                   matrix[idx1][idx2 - 1][idx3][idx4][idx5]),
-                               matrix[idx1][idx2][idx3 - 1][idx4][idx5]),
+                                  matrix[idx1][idx2 - 1][idx3][idx4][idx5]),
+                              matrix[idx1][idx2][idx3 - 1][idx4][idx5]),
                           matrix[idx1][idx2][idx3][idx4 - 1][idx5]),
                       matrix[idx1][idx2][idx3][idx4][idx5 - 1]);
             }
@@ -285,9 +284,10 @@ char *lcs_5(char *sequence1, char *sequence2, char *sequence3, char *sequence4,
   int length = matrix[i][j][k][l][m];
   char *subsequence = (char *)malloc((length + 1) * sizeof(char));
   subsequence[length] = '\0';
-  
+
   while (i > 0 && j > 0 && k > 0 && l > 0 && m > 0) {
-    if ((matrix[i][j][k][l][m] == matrix[i - 1][j - 1][k - 1][l - 1][m - 1] + 1) &&
+    if ((matrix[i][j][k][l][m] ==
+         matrix[i - 1][j - 1][k - 1][l - 1][m - 1] + 1) &&
         (sequence1[i - 1] == sequence2[j - 1]) &&
         (sequence1[i - 1] == sequence3[k - 1]) &&
         (sequence1[i - 1] == sequence4[l - 1]) &&
@@ -311,8 +311,8 @@ char *lcs_5(char *sequence1, char *sequence2, char *sequence3, char *sequence4,
       j--;
     } else if (matrix[i][j][k - 1][l][m] >= matrix[i - 1][j][k][l][m] &&
                matrix[i][j][k - 1][l][m] >= matrix[i][j - 1][k][l][m] &&
-                matrix[i][j][k - 1][l][m] >= matrix[i][j][k][l - 1][m] &&
-                matrix[i][j][k - 1][l][m] >= matrix[i][j][k][l][m - 1]) {
+               matrix[i][j][k - 1][l][m] >= matrix[i][j][k][l - 1][m] &&
+               matrix[i][j][k - 1][l][m] >= matrix[i][j][k][l][m - 1]) {
       k--;
     } else if (matrix[i][j][k][l - 1][m] >= matrix[i - 1][j][k][l][m] &&
                matrix[i][j][k][l - 1][m] >= matrix[i][j - 1][k][l][m] &&
@@ -333,14 +333,9 @@ char *lcs_5(char *sequence1, char *sequence2, char *sequence3, char *sequence4,
   return subsequence;
 }
 
-
 int main() {
-  char *sequences[] = { "CTGGCAACTGAGCAACCACTTACTTCCTGTTGAATTATAAGGAGAGGGTGTACCCGGAAGTACGTGGCTCACCTGTGAGAAGACGGAAAA", "TCGACCTCCACCATATTGCCCCCCGTAAGACTACCTTGATCCAATCGCGGGTCCGACTACTCACGCCTCAATGCGGGAGA", 
-  "TTTTTGTAACCTAAACTCCATTTGCCGCACAACCAAGACCTGAGAACCTTTAACAAGTTCGCTGGCTACTCCTCCTTCGAATTTGTAACTTTTGCACTTTCCAGACAAATG",
-  "TGAGAGGATTAATTGGTCAGATGAGGTCCATCAAGATACAGGGGACGCCTTTACTTCAACTAAATAGTCCCTCAAGAGTCGGATGCGAGCGACG",
-  "GAAGCCCGTTTGTAACGGTACACATTTATTTCGGTCTACATATCGCAACGGCGCTCCGTATGAAACCTCAAGACAGGACTGGTAAGCT"
-};
-  char *lcs = lcs_5(sequences[0], sequences[1], sequences[2], sequences[3], sequences[4]);
+  char *sequences[] = {"ATTGCCATT", "ATGGCCATT", "AXXXXG"};
+  char *lcs = lcs_3(sequences[0], sequences[1], sequences[2]);
   printf("LCS : %s\n", lcs);
   return 0;
 }
