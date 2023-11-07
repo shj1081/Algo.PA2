@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define MAX_SEQUENCES 5
-#define MAX_LENGTH 120
+#define MAX_LENGTH 130
 
 // Return the sum of the given integer array
 int sum(int *arr, int size) {
@@ -25,6 +25,18 @@ int max(int *arr, int size) {
   return max;
 }
 
+int max_index(int *arr, int size) {
+  int max = arr[0];
+  int max_idx = 0;
+  for (int i = 1; i < size; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+      max_idx = i;
+    }
+  }
+  return max_idx;
+}
+
 // Read the input file and store the sequences in seqs
 void read_input_file(char **seqs, int *seqs_num) {
   FILE *file = fopen("input.txt", "r");
@@ -44,6 +56,8 @@ typedef struct node {
   int name[MAX_SEQUENCES];
   int lcs_len;
   struct node *next_memo;
+  struct node *next[MAX_SEQUENCES];
+  struct node *chosen;
 } node;
 
 // function for check arr doesn't cntains -1
@@ -58,15 +72,16 @@ int check_arr(int *arr, int size) {
 
 // function for recursively calculating the lcs length
 int calc_lcs_len(int seqs_num,
-                 int seqs_char_index_arr[MAX_LENGTH][4][MAX_LENGTH + 1],
-                 node *****memo_table, int name[MAX_LENGTH]) {
-  
+                 int seqs_char_index_arr[MAX_SEQUENCES][4][MAX_LENGTH],
+                 node *****memo_table, int *name) {
   // if node is terminal node
   if (!check_arr(name, seqs_num)) {
+    /*
+    printf("name : %d %d %d %d %d \n", name[0], name[1], name[2], name[3],
+           name[4]);
+    printf("lcs_len : %d\n", 0);*/
     return 0;
-  }
-
-  else {
+  } else {
     // check if the name is in the memo table
     int match = 0;
     node *finder = memo_table[name[0]][name[1]][name[2]][name[3]];
@@ -75,17 +90,30 @@ int calc_lcs_len(int seqs_num,
         match = 1;
         break;
       }
+      if (finder->next_memo == NULL) {
+        break;
+      }
       finder = finder->next_memo;
     }
-
+    // if the name is in the memo table
     if (match) {
+      /*printf("name : %d %d %d %d %d \n", name[0], name[1], name[2], name[3],
+             name[4]);
+      printf("lcs_len : %d\n", finder->lcs_len);*/
       return finder->lcs_len;
-    } else {
+    }
+    // if the name is not in the memo table
+    else {
       node *new_node = malloc(sizeof(node));
       for (int i = 0; i < seqs_num; i++) {
         new_node->name[i] = name[i];
       }
-      finder->next_memo = new_node;
+
+      if (finder == NULL) {
+        memo_table[name[0]][name[1]][name[2]][name[3]] = new_node;
+      } else {
+        finder->next_memo = new_node;
+      }
 
       int next_name[4][MAX_SEQUENCES];
       // check the next node
@@ -96,12 +124,18 @@ int calc_lcs_len(int seqs_num,
         next_name[3][i] = seqs_char_index_arr[i][3][name[i]];
       }
 
-      int temp_max[seqs_num];
-      for (int i = 0; i < seqs_num; i++) {
+      int temp_max[4];
+      for (int i = 0; i < 4; i++) {
         temp_max[i] = calc_lcs_len(seqs_num, seqs_char_index_arr, memo_table,
                                    next_name[i]);
       }
-      return max(temp_max, seqs_num) + 1;
+     /*printf("name : %d %d %d %d %d \n", name[0], name[1], name[2], name[3],
+             name[4]);
+      printf("temp_max : %d %d %d %d\n", temp_max[0], temp_max[1], temp_max[2],
+             temp_max[3]);*/
+      //printf("lcs_len : %d\n", max(temp_max, 4) + 1);
+      new_node->lcs_len = max(temp_max, 4) + 1;
+      return max(temp_max, 4) + 1;
     }
   }
 }
@@ -109,7 +143,7 @@ int calc_lcs_len(int seqs_num,
 // function for find the lcs of the given sequences
 char *find_lcs(char **seqs, int seqs_num) {
   // build seqs_char_index_arr
-  int seqs_char_index_arr[MAX_LENGTH][4][MAX_LENGTH + 1];
+  int seqs_char_index_arr[MAX_LENGTH][4][MAX_LENGTH];
   memset(seqs_char_index_arr, -1, sizeof(seqs_char_index_arr));
   int start_idx_A, start_idx_T, start_idx_G, start_idx_C;
   for (int i = 0; i < seqs_num; i++) {
@@ -139,10 +173,10 @@ char *find_lcs(char **seqs, int seqs_num) {
     }
   }
 
-  // print seqs_char_index_arr
+  // printf seqs_char_index_arr
   for (int i = 0; i < seqs_num; i++) {
     for (int j = 0; j < 4; j++) {
-      for (int k = 0; k < strlen(seqs[i]) + 1; k++) {
+      for (int k = 0; k < strlen(seqs[i]); k++) {
         printf("%d ", seqs_char_index_arr[i][j][k]);
       }
       printf("\n");
@@ -169,11 +203,14 @@ char *find_lcs(char **seqs, int seqs_num) {
   }
 
   // calculate the lcs length
-  int lcs_len = calc_lcs_len(seqs_num, seqs_char_index_arr, memo_table,
-                             root->name);
+  int lcs_len =
+      calc_lcs_len(seqs_num, seqs_char_index_arr, memo_table, root->name);
 
   printf("lcs_len: %d\n", lcs_len);
-  char *lcs = "ABCD";
+  char *lcs;
+
+
+
   return lcs;
 }
 
@@ -275,6 +312,6 @@ int main() {
   int seqs_num;
   read_input_file(seqs, &seqs_num);
   char *lcs = find_lcs(seqs, seqs_num);
-  //MSA_write_output_file(seqs, seqs_num, lcs);
+  // MSA_write_output_file(seqs, seqs_num, lcs);
   return 0;
 }
