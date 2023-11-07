@@ -46,3 +46,4 @@ AT--CCAAT-
  - [Align sequences](https://www.biostars.org/p/485136/)
  - [LCS of 3 strings](https://www.geeksforgeeks.org/lcs-longest-common-subsequence-three-strings/)
  - [Printing Longest Common Subsequence](https://www.geeksforgeeks.org/printing-longest-common-subsequence/)
+ - [Computing LCS set of Strings](https://ir.nctu.edu.tw/bitstream/11536/4866/1/A1984SR65400005.pdf)
