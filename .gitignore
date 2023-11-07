@@ -10,6 +10,4 @@
 # Ignore individual
 .vscode
 .DS_Store
-/pa2.dSYM
-/pa2_ver2.dSYM
-/test2.dSYM
+final_ver.dSYM

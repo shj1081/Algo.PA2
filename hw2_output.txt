@@ -1,0 +1,5 @@
+---G-----GAAC-CGGAT-TATA-------G--G-T-A--TAGGTT--A--C--G-GG-A-----------------GTTAG-----TTTT-A-GT-CGC-T--T--G------TAAGC------TC--TC-GCTT---C--GATATG--T--ATC--GAC-GG-----AA-G--AGCTA----AAAAT---A-GC-A-C---GCCGCGCCCGGGGAGG-ATTTCCGCA
+---GTACCCGGAC-CCA-T-T-TACTTCAAAGCTG-T-A--T---T---A--C--GTGTCA-----------------G---G-----TTCCTACG--CAG-T--T--G------T---C------TGCAT--GCTTGGGCCTG----GG-T--ATTA-G-CCGGCGCGCA--GC-A-CTAC---A---TCGTA-GCCAGC---GC-----------ATGTACT------
+---GTTAA-GT-C-CC--TCT-T--------G--GAT-A--TCC-TCTGAATCTTGTG--ACATCTCTTCCCCAACATGT--G-----T----AAGTTCAAATCATAAG------TG--C------TAA-TCAG-T----C--G----GAGT--AT---GGC-GG-----A--G--A-CCACGCTA---T---ATG--A-CC--GC-----------A---AG-------
+CTTG-----G--CGC---TAT-T--------G--GGTGAGAT---TCCTAGTCATG-G--A-----------------G---GGAAGCTGGC-AAG--CC--TC-TC-GGCAGCGT---CAAGGAAT---T--G-TG---C--G----G--TTCATCCTG-C-GGTGC--ACTGTGA-C-A----A---TG--A-G--ATCATAGCTCCG-------A---A--------
+   *     *  * *   * * *        *  * * *  *   *   *  *  * *  *                 *   *     *    * *  *   *  *  *      *   *      *   *  * *    *  *    *  *  **   * * **     *  *  * * *    *   *   * *  * *   **           *   *        

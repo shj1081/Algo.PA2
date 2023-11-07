@@ -1,6 +1,0 @@
---CG-----------TAATA--C--TATGC--AA--G--T--CGA-CG-A---TG-A-C-----AAATTTAAGG----T---TT--------GTCCCAG-A----TT--AG----ATTACG-A-----GATAC--CCGCC-----T--AC-GAAATG--T---CTGC------G---GACCCCGAATTA-GTTGAGGTC-CA---------------
-GTCCGGCAGGCGGGCT------CC-TA-G---A---G--TTGCGG-CCTA---T--A-C-----AC------GC----TC--TT--------GAC---G-ACCCCTTGCACGGGGAC---G-AT----GGG-CATCGCCGGCACATG-A--GCG-T---TGGGCT-CTTTTTTG---G--------T---G-------CGC----------------
-G-C------------TGGT---CCGT--GGTTAT--G--TAACAATCC-AC--T--A-CGGGG-ACTCTT--GA----T---TCAATTTTTTGGC---GGAC---T---A-----A----GGA-----GGTTC--CGG-------TT-A--G---TACCT---C--C------G---GAG------TC--GTG-----C-CT---------------
---CAAC---------TAA----CG-TT-G---AACCGAGT--C---CCCAA--TCGAAC-----AAA-----GGAGCATGCCTC--------G-CCA-G-AG---T---A-----A----G-A-----G---C--CC--------TGGAT-G---TG--TAT-CATC------GACTG--------T---G-------C-CCACACCTTTTGTCGAG
---CAC----------TGATAGGC--T--GC--A---G--TG-C---CGTAGACTG-AGCGTGGGA-------G-----T---TAAA------G-CA--G-AC---TCC-A-----ATTATG-ATATACGTTTCA-CA--------TCTACCGGG-T---TGG-C--C------GACAGAACG----TTAAGA------C-C----------------
-  *            *      *  *  *   *   *  *  *   *  *   *  * *     *       *     *   *         * *   * *    *   *     *    * *     *   *  *         *  *  *   *   *   *  *      *   *        *   *       * *                
