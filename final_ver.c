@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define MAX_SEQUENCES 5
 #define MAX_STR_LENGTH 130  // 120 + 10(for safety)
@@ -419,10 +420,18 @@ void MSA_write_output_file(char **seqs, int seqs_num, char *lcs) {
 
 // main function =======================================
 int main() {
+  // Checking run time at beginning of main
+  int TIME = 0;
+  clock_t start = clock();
+
   char *seqs[MAX_SEQUENCES];                   // array of sequences
   int seqs_num;                                // number of sequences
   read_input_file(seqs, &seqs_num);            // read the input file
   char *lcs = find_lcs(seqs, seqs_num);        // find the lcs
   MSA_write_output_file(seqs, seqs_num, lcs);  // MSA and write the output file
+
+  // at end of main
+  TIME += ((int)clock() - start) / (CLOCKS_PER_SEC / 1000);
+  printf("TIME : %d ms\n", TIME);
   return 0;
 }
